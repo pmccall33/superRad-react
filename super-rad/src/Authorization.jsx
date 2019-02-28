@@ -1,32 +1,29 @@
 import React, { Component } from 'react';
 import  styled from 'styled-components'
 
-const StyledLogin = styled.div`
+const StyledAuth = styled.div`
   display: flex;
   flex-direction: row;
-`
-const StyledSignUp = styled.div`
-  display: flex;
+  justify-content: space-around;
+  margin-bottom: 100px;
 `
 
 class Authorization extends Component {
   render(){
     return(
       <div>
-        <StyledLogin>
+        <StyledAuth>
           <form>
             <h1>Log In</h1>
-            <input type="text"></input>
-            <input type="password"></input>
+            <input type="text" placeholder="username"></input><br/>
+            <input type="password" placeholder="password"></input>
           </form>
-        </StyledLogin>
-        <StyledSignUp>
           <form>
             <h1>Sign Up</h1>
-            <input type="text"></input>
-            <input type="password"></input>
+            <input type="text" placeholder="username"></input><br/>
+            <input type="password" placeholder="password"></input>
           </form>
-        </StyledSignUp>
+        </StyledAuth>
       </div>
     )
   }
