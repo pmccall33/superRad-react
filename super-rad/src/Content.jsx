@@ -9,7 +9,7 @@ const StyledContent = styled.div`
  class Content extends React.Component {
    render() {
      return(
-         <StyledContent>hi</StyledContent>
+         <StyledContent>test</StyledContent>
      )
    }
  }

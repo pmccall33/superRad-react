@@ -17,12 +17,13 @@ const StyledNav = styled.nav`
   }
   a:hover {
     text-decoration: underline;
-    color: #ffbb45;
+    color: #4cf0ce;
   }
 `
 const StyledH1 = styled.h1`
 text-align: left;
 display: inline-flex
+margin-right: 800px;
 `
 
 class Nav extends Component {
