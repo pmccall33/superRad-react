@@ -73,9 +73,6 @@ class Authorization extends Component {
         const username = this.state.username;
         const password = this.state.password;
 
-        console.log("PROCESS.ENV: ", process.env.REACT_APP_API_URL);
-
-
         const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/login`), {
           method: 'POST',
           credentials: 'include',
@@ -116,33 +113,41 @@ class Authorization extends Component {
         confirmation: "",
         message: "Invalid input"        
       })
-    }
-
-    if (this.state.password !== this.state.confirmation) {
+    } else if (this.state.password !== this.state.confirmation) {
       this.setState({
         username: "",
         password: "",
         confirmation: "",
         message: "Password =/= confirm" 
       })
+    } else {
+
+        const username = this.state.username;
+        const password = this.state.password;
+
+        const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/register`), {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({
+            username: username,
+            password: password
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        
+        const responseJson = await response.json();
+        console.log(responseJson);
+
+        this.setState({
+          username: "",
+          password: "",
+          confirmation: "",
+          message: "Sent"        
+        })
+      }      
     }
-
-    //      '/api/v1/user/register'
-
-  //   const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/${info.which}`), {
-  //     method: 'POST',
-  //     credentials: 'include',
-  //     body: JSON.stringify({
-  //       username: info.username,
-  //       password: info.password
-  //     }),
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //   const responseJson = await response.json();
-  //   console.log(responseJson)
-  // }
   }
   render(){
 
