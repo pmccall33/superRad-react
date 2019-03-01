@@ -8,9 +8,6 @@ const StyledAuth = styled.div`
   margin-bottom: 100px;
 `
 
-
-// Adding user authorization stuff: 
-
 class Authorization extends Component {
   constructor(props){
     super();
@@ -55,48 +52,102 @@ class Authorization extends Component {
       })      
     }
   }
-  submitLogin = (evt) => {
-    
+  submitLogin = async (evt) => {
+
     evt.preventDefault();
 
-    if (!this.state.username || !this.state.password) {
-      this.setState({
-        username: "",
-        password: "",
-        confirmation: "",
-        message: "Invalid input"        
-      })
+    try {
+
+      if (!this.state.username || !this.state.password) {
+        this.setState({
+          username: "",
+          password: "",
+          confirmation: "",
+          message: "Invalid input"        
+        })
+      } else {
+
+        const username = this.state.username;
+        const password = this.state.password;
+
+        const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/login`), {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({
+            username: username,
+            password: password
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        
+        const responseJson = await response.json();
+        console.log(responseJson);
+
+        this.setState({
+          username: "",
+          password: "",
+          confirmation: "",
+          message: "Sent"        
+        })
+      }
+
+    } catch (err) {
+      if (err) {
+        console.log(err);
+      }
     }
-
-    // need to write fetch logic for login HERE
-
-
   }
-  submitReg = (evt) => {
+  submitReg = async (evt) => {
 
     evt.preventDefault();
 
-    if (!this.state.username || !this.state.password) {
-      this.setState({
-        username: "",
-        password: "",
-        confirmation: "",
-        message: "Invalid input"        
-      })
+    try {
+      if (!this.state.username || !this.state.password) {
+        this.setState({
+          username: "",
+          password: "",
+          confirmation: "",
+          message: "Invalid input"        
+        })
+      } else if (this.state.password !== this.state.confirmation) {
+        this.setState({
+          username: "",
+          password: "",
+          confirmation: "",
+          message: "Password =/= confirm" 
+        })
+      } else {
+
+          const username = this.state.username;
+          const password = this.state.password;
+
+          const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/register`), {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({
+              username: username,
+              password: password
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          
+          const responseJson = await response.json();
+          console.log(responseJson);
+
+          this.setState({
+            username: "",
+            password: "",
+            confirmation: "",
+            message: "Sent"        
+          })
+        }      
+    } catch(err) {
+      console.log(err);
     }
-
-    if (this.state.password !== this.state.confirmation) {
-      this.setState({
-        username: "",
-        password: "",
-        confirmation: "",
-        message: "Password =/= confirm" 
-      })
-    }
-
-    // need to write logic for create user HERE
-
-
   }
   render(){
 
