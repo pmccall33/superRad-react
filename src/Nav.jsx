@@ -6,7 +6,6 @@ import styled from 'styled-components'
 const StyledNav = styled.nav`
   text-align: left;
   display: inline;
-
   li {
     display: inline;
     padding: 20px;
