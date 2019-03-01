@@ -6,7 +6,7 @@ import Content from './Content.jsx';
 import Authorization from './Authorization.jsx';
 import styled from 'styled-components'
 
-// need this to be smart, putting in some stuff we might want: 
+// need this to be smart, putting in some stuff we might want:
 
 class App extends Component {
   constructor(){
@@ -38,12 +38,13 @@ class App extends Component {
   setAuthView = (authView) => {
     // acceptable inputs: "reg", "login"
     this.setState({
-      authView: authView 
+      authView: authView
     })
   }
   getImages = (imageId = null) => {
-    // need to communicate w/ database; if no imageId is supplied, default value is null, 
-    // which should get totally random images for initial layout 
+    
+    // need to communicate w/ database; if no imageId is supplied, default value is null,
+    // which should get totally random images for initial layout
   }
   render() {
     return (
