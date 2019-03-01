@@ -15,7 +15,7 @@ class Authorization extends Component {
     super();
 
     let authView = props.authView 
-    if (props.authView !== "reg" || props.authView !== "login") {
+    if (props.authView !== "login") {
       authView = "reg"
     } 
 
