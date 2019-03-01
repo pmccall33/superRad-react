@@ -1,0 +1,15 @@
+body {
+  background-color: #e2e2e220;
+  margin: 0;
+}
+
+#nav:not(#h1) {
+  border: solid black;
+  display: inline-flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+#h1 {
+  justify-content: flex-start;
+}
