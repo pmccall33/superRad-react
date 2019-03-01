@@ -8,6 +8,7 @@ const StyledAuth = styled.div`
   margin-bottom: 100px;
 `
 
+
 // Adding user authorization stuff: 
 
 class Authorization extends Component {
@@ -32,49 +33,103 @@ class Authorization extends Component {
       [evt.currentTarget.name]: evt.currentTarget.value 
     })
   }
-  toggleView = (view) => {
-    this.setState({
-      authView: view
-    })
+  setLoginView = () => {
+    if (this.state.authView !== "login") {
+      this.setState({
+        username: "",
+        password: "",
+        confirmation: "",
+        message: "",
+        authView: "login"
+      })
+    }
   }
-  submit = (type) => {
+  setRegView = () => {
+    if (this.state.authView !== "reg") {
+      this.setState({
+        username: "",
+        password: "",
+        confirmation: "",
+        message: "",
+        authView: "reg"
+      })      
+    }
+  }
+  submitLogin = (evt) => {
+    
+    evt.preventDefault();
+
     if (!this.state.username || !this.state.password) {
       this.setState({
         username: "",
-        password: "", 
+        password: "",
         confirmation: "",
-        message: "Invalid username and/or password"
+        message: "Invalid input"        
       })
-    } else if (type === "reg" && this.state.password !== this.state.confirmation) {
+    }
+
+    // need to write fetch logic for login HERE
+
+
+  }
+  submitReg = (evt) => {
+
+    evt.preventDefault();
+
+    if (!this.state.username || !this.state.password) {
       this.setState({
         username: "",
-        password: "", 
+        password: "",
         confirmation: "",
-        message: "Password must match 'confirm password'"
+        message: "Invalid input"        
       })
-    } else {
-      type === "reg" ? this.props.register(this.state) : this.props.login(this.state)
     }
+
+    if (this.state.password !== this.state.confirmation) {
+      this.setState({
+        username: "",
+        password: "",
+        confirmation: "",
+        message: "Password =/= confirm" 
+      })
+    }
+
+    // need to write logic for create user HERE
+
+
   }
   render(){
+
+    let loginDisabled = false;
+    let regDisabled = false;
+    let loginStyle = {"opacity": 1};
+    let regStyle = {"opacity": 1};
+
+    if (this.state.authView === "reg") {
+      loginDisabled = true;
+      loginStyle = {"opacity": 0.5};
+    } else {
+      regDisabled = true;
+      regStyle = {"opacity": 0.5};
+    }
+
     return(
       <div>
-        { this.state.message ? <h4>{this.state.message}</h4> : <h4> &nbsp; </h4> }
         <StyledAuth>
-          <form>
-            { this.state.authView === "login" ? <h1>Log In</h1> : null }
-            { this.state.authView === "login" ? <button onClick={this.toggleView.bind("reg")}> Make New Account </button> : null }
-            { this.state.authView === "login" ? <input onChange={this.handleChange} type="text" name="username" value={this.state.username} placeholder="username"></input> : null}
-            { this.state.authView === "login" ? <input onChange={this.handleChange} type="password" name="password" value={this.state.password} placeholder="password"></input> : null}
-            { this.state.authView === "login" ? <button onClick={this.submit("login")}>Log In</button> : null }
+          <form onClick={this.setRegView} style={regStyle} >
+            <h1>Sign Up</h1>
+            { this.state.message && this.state.authView === "reg" ? <p> <small>{this.state.message}</small> <br/> </p> : <p> &nbsp; <br /> </p> }
+            <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "reg" ? this.state.username : ""} placeholder="username"></input> <br />
+            <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "reg" ? this.state.password : "" } placeholder="password"></input> <br />
+            <input  onChange={this.handleChange} type="password" name="confirmation" value={ this.state.authView === "reg" ? this.state.confirmation : "" } placeholder="confirm password"></input> <br /> 
+            <button disabled={regDisabled} onClick={this.submitReg}>Create Account</button> 
           </form>
-          <form>
-            { this.state.authView === "reg" ? <h1>Sign Up</h1> : null }
-            { this.state.authView === "reg" ? <button onClick={this.toggleView.bind("login")}> Log In </button>: null }
-            { this.state.authView === "reg" ? <input onChange={this.handleChange} type="text" name="username" value={this.state.username} placeholder="username"></input> : null }
-            { this.state.authView === "reg" ? <input onChange={this.handleChange} type="password" name="password" value={this.state.password} placeholder="password"></input> : null }
-            { this.state.authView === "reg" ? <input onChange={this.handleChange} type="password" name="confirmation" value={this.state.confirmation} placeholder="confirm password"></input> : null }
-            { this.state.authView === "reg" ? <button onClick={this.submit("reg")}>Create Account</button> : null }
+          <form onClick={this.setLoginView} style={loginStyle}>
+            <h1>Log In</h1>
+            { this.state.message && this.state.authView === "login" ? <p> <small>{ this.state.authView === "login" ? this.state.message : "" } </small> <br /> </p> : <p> &nbsp; <br /> </p> }
+            <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "login" ? this.state.username : "" } placeholder="username"></input> <br/>
+            <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "login" ? this.state.password : "" } placeholder="password"></input> <br />
+            <button disabled={loginDisabled} onClick={this.submitLogin}>Log In</button>
           </form>
         </StyledAuth>
       </div>
