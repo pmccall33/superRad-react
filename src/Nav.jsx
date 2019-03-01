@@ -31,7 +31,7 @@ class Nav extends Component {
       <div>
         <StyledNav>
         <ul>
-          <StyledH1 class="exception">super rad</StyledH1>
+          <StyledH1 className="exception">super rad</StyledH1>
           <li><a href="/">sign in</a></li>
           <li><a href="https://github.com/dakotahducharme/super-rad-react">front end repo</a></li>
           <li><a href="">back end repo</a></li>
