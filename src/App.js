@@ -43,9 +43,7 @@ class App extends Component {
       page: "user"
     })
   }
-  logout = () => {
-
-    // hit logout route on server 
+  logout = async () => {
 
     this.setState({
       loggedIn: false,
