@@ -9,10 +9,16 @@ import Nav from './Nav.jsx';
 import Footer from './Footer.jsx';
 import Home from './Home.jsx';
 import Authorization from './Authorization.jsx';
-import User from './User.jsx';
+// import User from './User.jsx';
 import Game from './Game.jsx';
 import About from './About.jsx';
 
+
+const StyledDiv = styled.div`
+  .shift {
+    margin-left: 20px;
+  }
+`
 
 class App extends Component {
   constructor(){
@@ -48,18 +54,38 @@ class App extends Component {
   }
   logout = async () => {
 
-    // need to hit logout API route !!! 
+    try {
+      const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/logout`), {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
 
-    const userLoggedOut = this.state.username;
+      const responseJson = await response.json();
 
-    this.setState({
-      loggedIn: false,
-      username: "",
-      userId: "",
-      admin: false,
-      message: `Logged out user ${userLoggedOut}`,
-      page: "authorization"
-    })
+      const userLoggedOut = this.state.username;
+
+      if (responseJson.status !== "good" || !responseJson.success) {
+        console.log("ERROR: connected w/ server, but failed to log out user")
+        this.setState({
+          message: `Failed to log out user ${userLoggedOut}`
+        })
+      } else {
+        this.setState({
+          loggedIn: false,
+          username: "",
+          userId: "",
+          admin: false,
+          message: `Logged out user ${userLoggedOut}`,
+          page: "authorization"
+        })
+      }
+
+    } catch (err) {
+      console.log(err)
+    }
   }
   setAuthView = (authView) => {
     // acceptable inputs: "reg", "login"
@@ -78,8 +104,10 @@ class App extends Component {
     return (
       <div className="App">
         <Nav data={this.state} goTo={this.goTo} logout={this.logout} />
-        { this.state.message ? <span>{this.state.message}</span> : null } 
-        { !this.state.message && this.state.loggedIn ? <span> {this.state.username} </span> : <span> &nbsp; </span> }
+        <StyledDiv>
+          { this.state.message ? <span className="shift">{this.state.message}</span> : null } 
+         { !this.state.message && this.state.loggedIn ? <span className="shift"> user: {this.state.username} </span> : <span> &nbsp; </span> }
+        </StyledDiv>
         { this.state.page === "authorization" ? <Authorization data={this.state} register={this.register} login={this.login} /> : null }
         { this.state.page === "home" ? <Home data={this.state} /> : null }
         { this.state.page === "game" ? <Game data={this.state} getImages={this.getImages} /> : null }

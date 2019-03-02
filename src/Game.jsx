@@ -4,16 +4,21 @@ import  styled from 'styled-components';
 // Components: 
 import Content from './Content.jsx';
 
+
+  // a, span {
+  //   text-decoration: none;
+  //   color: black
+  // }
+  // a:hover, span:hover {
+  //   text-decoration: underline;
+  //   color: #4cf0ce;
+  //   cursor: pointer;
+  // }
+
 const StyledDiv = styled.div`
-  a, span {
-    text-decoration: none;
-    color: black
-  }
-  a:hover, span:hover {
-    text-decoration: underline;
-    color: #4cf0ce;
-    cursor: pointer;
-  }
+	h1 {
+		margin-left: 20px;
+	}
 `
 
 class Game extends Component {
@@ -28,7 +33,7 @@ class Game extends Component {
 	render(){
 		return (
 			<StyledDiv>
-				<h1>GAME RENDERED</h1>
+				<h1>GAME PAGE RENDERED</h1>
 				<Content />
 			</StyledDiv>
 		)

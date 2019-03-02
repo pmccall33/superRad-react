@@ -1,24 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import  styled from 'styled-components'; 
 
 // Components 
 import User from './User.jsx';
 
+  // a, span {
+  //   text-decoration: none;
+  //   color: black
+  // }
+  // a:hover, span:hover {
+  //   text-decoration: underline;
+  //   color: #4cf0ce;
+  //   cursor: pointer;
+  // }
 
 const StyledDiv = styled.div`
-  a, span {
-    text-decoration: none;
-    color: black
-  }
-  a:hover, span:hover {
-    text-decoration: underline;
-    color: #4cf0ce;
-    cursor: pointer;
+  h1 {
+    margin-left: 20px;
   }
 `
 
 function Home (props) {
-  console.log(props);
   return (
 		<StyledDiv>
       { props.data.loggedIn ? <User /> : <h1> HOME PAGE RENDERED </h1> }
