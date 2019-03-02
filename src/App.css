@@ -5,6 +5,10 @@ body {
   margin: 0;
 }
 
-form {
-	min-width: 150px;
+h4 {
+	margin-bottom: 10px;
+}
+
+.App {
+	min-width: 440px;
 }

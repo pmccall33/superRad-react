@@ -6,6 +6,10 @@ const StyledAuth = styled.div`
   flex-direction: row;
   justify-content: space-around;
   margin-bottom: 100px;
+
+  form {
+    min-width: 150px;
+  }
 `
 
 class Authorization extends Component {
@@ -77,7 +81,6 @@ class Authorization extends Component {
         })
         
         const responseJson = await response.json();
-        console.log(responseJson);
 
         if (responseJson.success && responseJson.status === "good") {
           this.setState({
@@ -95,7 +98,7 @@ class Authorization extends Component {
           })
         }
 
-      this.props.login(responseJson.username, responseJson.userId)
+      this.props.login(responseJson.username, responseJson.userId, responseJson.is_admin)
 
       }
     } catch (err) {
@@ -141,7 +144,6 @@ class Authorization extends Component {
           })
           
           const responseJson = await response.json();
-          console.log(responseJson);
 
           if (responseJson.success && responseJson.status === "good") {
             this.setState({
@@ -159,7 +161,7 @@ class Authorization extends Component {
             })
           }
 
-          this.props.login(responseJson.username, responseJson.userId);
+          this.props.login(responseJson.username, responseJson.userId, responseJson.is_admin);
       }
     } catch(err) {
       console.log(err);

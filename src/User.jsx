@@ -1,11 +1,23 @@
 import React from 'react';
 import  styled from 'styled-components';
 
+const StyledDiv = styled.div`
+  a, span {
+    text-decoration: none;
+    color: black
+  }
+  a:hover, span:hover {
+    text-decoration: underline;
+    color: #4cf0ce;
+    cursor: pointer;
+  }
+`
+
 const User = (props) => {
 	return (
-		<div>
-			USER RENDERED
-		</div>
+		<StyledDiv>
+			<h1>USER PAGE RENDERED</h1>
+		</StyledDiv>
 	)
 }
 

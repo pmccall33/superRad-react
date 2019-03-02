@@ -19,11 +19,12 @@ class App extends Component {
     super();
     this.state = {
       loggedIn: false,
+      message: "",
       username: "",
       userId: "",
       admin: false,
       pathId: "",
-      page: "authorization",  // --> "home", "authorization", "user", "game", "about"
+      page: "home",  // --> "home", "authorization", "user", "game", "about"
       sessionImageIds: [],
       currentImages: []
     }
@@ -31,25 +32,32 @@ class App extends Component {
   goTo = (destination) => {
     // acceptable inputs: "home", "authorization", "user", "game", "about"
     this.setState({
-      page: destination
+      page: destination,
+      message: ""
     })
   }
-  login = (username, userId, is_admin = false) => {
+  login = (username, userId, is_admin) => {
     this.setState({
       loggedIn: true,
       username: username,
       userId: userId,
       admin: is_admin,
-      page: "user"
+      page: "home",
+      message: `Logged in as ${username}`
     })
   }
   logout = async () => {
+
+    // need to hit logout API route !!! 
+
+    const userLoggedOut = this.state.username;
 
     this.setState({
       loggedIn: false,
       username: "",
       userId: "",
       admin: false,
+      message: `Logged out user ${userLoggedOut}`,
       page: "authorization"
     })
   }
@@ -65,12 +73,15 @@ class App extends Component {
   }
   render() {
     
+    // console.log("APP STATE: ", this.state)
+
     return (
       <div className="App">
         <Nav data={this.state} goTo={this.goTo} logout={this.logout} />
-        { this.state.page === "home" ? <Home data={this.state} /> : null }
+        { this.state.message ? <span>{this.state.message}</span> : null } 
+        { !this.state.message && this.state.loggedIn ? <span> {this.state.username} </span> : <span> &nbsp; </span> }
         { this.state.page === "authorization" ? <Authorization data={this.state} register={this.register} login={this.login} /> : null }
-        { this.state.page === "user" ? <User data={this.state} /> : null }
+        { this.state.page === "home" ? <Home data={this.state} /> : null }
         { this.state.page === "game" ? <Game data={this.state} getImages={this.getImages} /> : null }
         { this.state.page === "about" ? <About /> : null }
         <Footer />
