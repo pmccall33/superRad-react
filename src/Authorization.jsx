@@ -11,18 +11,12 @@ const StyledAuth = styled.div`
 class Authorization extends Component {
   constructor(props){
     super();
-
-    let authView = props.authView 
-    if (props.authView !== "login") {
-      authView = "reg"
-    } 
-
     this.state = {
       username: "",
       password: "",
       confirmation: "",
       message: "",
-      authView: authView
+      authView: "reg"
     }
   }
   handleChange = (evt) => {
@@ -85,14 +79,25 @@ class Authorization extends Component {
         const responseJson = await response.json();
         console.log(responseJson);
 
-        this.setState({
-          username: "",
-          password: "",
-          confirmation: "",
-          message: "Sent"        
-        })
-      }
+        if (responseJson.success && responseJson.status === "good") {
+          this.setState({
+            username: "",
+            password: "",
+            confirmation: "",
+            message: responseJson.message 
+          })
+        } else {
+          this.setState({
+            username: "",
+            password: "",
+            confirmation: "",
+            message: "Failed to log in"             
+          })
+        }
 
+      this.props.login(responseJson.username, responseJson.userId)
+
+      }
     } catch (err) {
       if (err) {
         console.log(err);
@@ -138,13 +143,24 @@ class Authorization extends Component {
           const responseJson = await response.json();
           console.log(responseJson);
 
-          this.setState({
-            username: "",
-            password: "",
-            confirmation: "",
-            message: "Sent"        
-          })
-        }      
+          if (responseJson.success && responseJson.status === "good") {
+            this.setState({
+              username: "",
+              password: "",
+              confirmation: "",
+              message: responseJson.message 
+            })
+          } else {
+            this.setState({
+              username: "",
+              password: "",
+              confirmation: "",
+              message: `Failed to register ${username}`             
+            })
+          }
+
+          this.props.login(responseJson.username, responseJson.userId);
+      }
     } catch(err) {
       console.log(err);
     }

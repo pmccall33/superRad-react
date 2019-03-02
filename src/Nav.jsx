@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 
@@ -25,21 +25,25 @@ display: inline-flex
 margin-right: 800px;
 `
 
-class Nav extends Component {
-  render() {
-    return (
-      <div>
-        <StyledNav>
-        <ul>
-          <StyledH1 className="exception">super rad</StyledH1>
-          <li><a href="/">sign in</a></li>
-          <li><a href="https://github.com/dakotahducharme/super-rad-react">front end repo</a></li>
-          <li><a href="">back end repo</a></li>
-        </ul>
-      </StyledNav>
-    </div>
-    )
-  }
+const Nav = (props) => {
+
+  return (
+    <div>
+      <StyledNav>
+      <ul>
+        <StyledH1 className="exception">super rad</StyledH1>
+        { !props.data.loggedIn ? <li><span className="fakeLink" onClick={props.goTo.bind(null, "authorization")}> sign in / register</span></li> : null }
+        { props.data.loggedIn ? <li> <span className="fakeLink" onClick={props.goTo.bind(null, "user")}> user page </span></li> : null }
+        { props.data.loggedIn ? <li><span className="fakeLInk" onClick={props.logout}> logout </span></li> : null }
+        <li><span className="fakeLink" onClick={props.goTo.bind(null, "home")}> home </span></li>
+        <li><span className="fakeLink" onClick={props.goTo.bind(null, "game")}> game </span></li>
+        <li><span className="fakeLink" onClick={props.goTo.bind(null, "about")}> about </span></li>
+        <li><a href="https://github.com/dakotahducharme/super-rad-react" target="_blank"> front end repo </a></li>
+        <li><a href="https://github.com/pmccall33/super-rad-app-sinatra" target="_blank"> back end repo </a></li>
+      </ul>
+    </StyledNav>
+  </div>
+  )
 }
 
 export default Nav;
