@@ -64,9 +64,7 @@ class App extends Component {
     // which should get totally random images for initial layout 
   }
   render() {
-
-    console.log("APP STATE: ", this.state)
-
+    
     return (
       <div className="App">
         <Nav data={this.state} goTo={this.goTo} logout={this.logout} />
