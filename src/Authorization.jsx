@@ -23,10 +23,10 @@ class Authorization extends Component {
       authView: "reg"
     }
   }
-  handleChange = (evt) => {
+  handleChange = (e) => {
     this.setState({
-      [evt.currentTarget.name]: evt.currentTarget.value 
-    })
+      [e.currentTarget.name]: e.currentTarget.value
+    });
   }
   setLoginView = () => {
     if (this.state.authView !== "login") {
@@ -36,7 +36,7 @@ class Authorization extends Component {
         confirmation: "",
         message: "",
         authView: "login"
-      })
+      });
     }
   }
   setRegView = () => {
@@ -47,22 +47,17 @@ class Authorization extends Component {
         confirmation: "",
         message: "",
         authView: "reg"
-      })      
+      });
     }
   }
-  submitLogin = async (evt) => {
-
-    evt.preventDefault();
+  submitLogin = async (e) => {
+    e.preventDefault();
+    const username = this.state.username;
+    const password = this.state.password;
 
     try {
-
-      if (!this.state.username || !this.state.password) {
-        this.setState({
-          username: "",
-          password: "",
-          confirmation: "",
-          message: "Invalid input"        
-        })
+      if (!username || !password) {
+        this.setState({ message: "Invalid input" });
       } else {
 
         const username = this.state.username;
@@ -80,10 +75,9 @@ class Authorization extends Component {
             'Content-Type': 'application/json'
           }
         })
-        
+
         const responseJson = await response.json();
         console.log(responseJson);
-
 
         if (responseJson.success && responseJson.status === "good") {
           this.setState({
@@ -109,19 +103,34 @@ class Authorization extends Component {
       }
     }
   }
-  submitReg = async (evt) => {
-
-    evt.preventDefault();
-
+  submitReg = async (e) => {
+    e.preventDefault();
     try {
-      if (!this.state.username || !this.state.password) {
-        this.setState({
-          username: "",
-          password: "",
-          confirmation: "",
-          message: "Invalid input"        
-        })
-      } else if (this.state.password !== this.state.confirmation) {
+      const username = this.state.username;
+      const password = this.state.password;
+      const confirmation = this.state.confirmation;
+
+      if (!username || !password) {
+        this.setState({ message: "Invalid input" });
+      } else if (password !== confirmation) {
+        this.setState({ message: "Password =/= confirm" });
+      } else {
+        const registerURI = `${process.env.REACT_APP_API_URL}/api/v1/user/register`
+        const response = await fetch((registerURI), {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({
+            username: username,
+            password: password
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const responseJson = await response.json();
+        console.log(responseJson);
+
         this.setState({
           username: "",
           password: "",
@@ -166,7 +175,6 @@ class Authorization extends Component {
               message: "Registration failed"             
             })
           }
-
       }
     } catch(err) {
       console.log(err);

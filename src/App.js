@@ -27,13 +27,16 @@ class App extends Component {
       loggedIn: false,
       message: "",
       username: "",
-      userId: "",
+      // userId: "",
       admin: false,
       pathId: "",
       page: "home",  // --> "home", "authorization", "user", "game", "about"
       sessionImageIds: [],
       currentImages: []
     }
+  }
+  setLogin = ({username}) => {
+    this.setState({ username, loggedIn: true });
   }
   goTo = (destination) => {
     // acceptable inputs: "home", "authorization", "user", "game", "about"
@@ -137,8 +140,7 @@ class App extends Component {
       })
     }
   }
-  render() {
-    
+  render() {    
     // console.log("APP STATE: ", this.state)
 
     return (
