@@ -122,8 +122,6 @@ class App extends Component {
         newImages.push({id: image.id, url: image.image_url})
        })
 
-       newImages.push({id: responseJson.image_id, url: responseJson.image_url})
-
        this.setState({
         page: "game",
         message: "",
@@ -141,7 +139,7 @@ class App extends Component {
     }
   }
   render() {    
-    // console.log("APP STATE: ", this.state)
+    console.log("APP STATE: ", this.state)
 
     return (
       <div className="App">

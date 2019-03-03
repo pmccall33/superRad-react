@@ -34,7 +34,6 @@ class Game extends Component {
 	render(){
 		return (
 			<StyledDiv>
-				<h1>GAME PAGE RENDERED</h1>
 				<Content images={this.state.images} />
 			</StyledDiv>
 		)
