@@ -34,10 +34,8 @@ class Game extends Component {
 	}
 	getSelectedImages = async (imageId) => {
 
-		console.log(imageId);
-
 		try {
-			const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random`
+			const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/${imageId}`
 			const response = await fetch((imageURI), {
 				credentials: 'include',
 				headers: {
@@ -48,7 +46,9 @@ class Game extends Component {
 			const responseJson = await response.json();
 
 			if (responseJson.status !== "good" || !responseJson.success) {
-				throw new Error("Failed to Load Page");
+				console.log("something's wrong... response: ");
+				console.log(responseJson);;
+				return 
 			}
 
 			console.log(responseJson)
