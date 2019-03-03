@@ -13,7 +13,7 @@ const StyledContent = styled.div`
 const Content = (props) => {
   return (
     <StyledContent>
-      <img alt="game image" id={props.images[0].id} src={props.images[0].url} />
+      <img alt="game" id={props.images[0].id} src={props.images[0].url} />
     </StyledContent>
   )
 }

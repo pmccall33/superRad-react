@@ -123,6 +123,7 @@ class App extends Component {
 
        this.setState({
         page: "game",
+        message: "",
         currentImages: newImages
        })
 
