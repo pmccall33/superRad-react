@@ -25,16 +25,17 @@ class Game extends Component {
 	constructor(props){
 		super();
 		this.state = {
-			loggedIn: props.loggedIn,
-			username: props.username,
-			userId: props.userId
+			loggedIn: props.data.loggedIn,
+			username: props.data.username,
+			userId: props.data.userId,
+			images: props.data.currentImages
 		}
 	}
 	render(){
 		return (
 			<StyledDiv>
 				<h1>GAME PAGE RENDERED</h1>
-				<Content />
+				<Content images={this.state.images} />
 			</StyledDiv>
 		)
 	}

@@ -68,7 +68,8 @@ class Authorization extends Component {
         const username = this.state.username;
         const password = this.state.password;
 
-        const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/login`), {
+        const loginURI = `${process.env.REACT_APP_API_URL}/api/v1/user/login`;
+        const response = await fetch((loginURI), {
           method: 'POST',
           credentials: 'include',
           body: JSON.stringify({
@@ -81,14 +82,18 @@ class Authorization extends Component {
         })
         
         const responseJson = await response.json();
+        console.log(responseJson);
+
 
         if (responseJson.success && responseJson.status === "good") {
           this.setState({
             username: "",
             password: "",
-            confirmation: "",
-            message: responseJson.message 
+            confirmation: "", 
           })
+        
+          this.props.login(responseJson.username, responseJson.userId, responseJson.is_admin)
+        
         } else {
           this.setState({
             username: "",
@@ -97,9 +102,6 @@ class Authorization extends Component {
             message: "Failed to log in"             
           })
         }
-
-      this.props.login(responseJson.username, responseJson.userId, responseJson.is_admin)
-
       }
     } catch (err) {
       if (err) {
@@ -131,7 +133,8 @@ class Authorization extends Component {
           const username = this.state.username;
           const password = this.state.password;
 
-          const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/register`), {
+          const registerURI = `${process.env.REACT_APP_API_URL}/api/v1/user/register`
+          const response = await fetch((registerURI), {
             method: 'POST',
             credentials: 'include',
             body: JSON.stringify({
@@ -141,31 +144,97 @@ class Authorization extends Component {
             headers: {
               'Content-Type': 'application/json'
             }
-          })
+          });
           
           const responseJson = await response.json();
+          console.log(responseJson);
 
           if (responseJson.success && responseJson.status === "good") {
             this.setState({
               username: "",
               password: "",
-              confirmation: "",
-              message: responseJson.message 
+              confirmation: ""
             })
+
+            this.props.login(responseJson.username, responseJson.userId, responseJson.is_admin);
+
           } else {
             this.setState({
               username: "",
               password: "",
               confirmation: "",
-              message: `Failed to register ${username}`             
+              message: "Registration failed"             
             })
           }
 
-          this.props.login(responseJson.username, responseJson.userId, responseJson.is_admin);
       }
     } catch(err) {
       console.log(err);
     }
+  }
+  renderRegistration = ({style, disabled}) => {
+    return(
+      <form onClick={this.setRegView} style={style}>
+        <h1>Sign Up</h1>
+        <p>
+          <small>{this.state.authView === "reg" && this.state.message}</small>
+          <br/>
+        </p>
+        <input
+          onChange={this.handleChange}
+          type="text"
+          name="username"
+          value={this.state.authView === "reg" ? this.state.username : ""}
+          placeholder="username">
+        </input>
+        <br />
+        <input
+          onChange={this.handleChange}
+          type="password"
+          name="password"
+          value={this.state.authView === "reg" ? this.state.password : ""}
+          placeholder="password">
+        </input>
+        <br />
+        <input
+          onChange={this.handleChange}
+          type="password"
+          name="confirmation"
+          value={this.state.authView === "reg" ? this.state.confirmation : ""}
+          placeholder="confirm password">
+        </input>
+        <br />
+        <button disabled={disabled} onClick={this.submitReg}>Create Account</button>
+      </form>
+    )
+  }
+  renderLogin = ({style, disabled}) => {
+    return(
+      <form onClick={this.setLoginView} style={style}>
+        <h1>Log In</h1>
+        <p>
+          <small>{this.state.authView === "login" && this.state.message}</small>
+          <br />
+        </p>
+        <input
+          onChange={this.handleChange}
+          type="text"
+          name="username"
+          value={this.state.authView === "login" ? this.state.username : ""}
+          placeholder="username">
+        </input>
+        <br/>
+        <input
+          onChange={this.handleChange}
+          type="password"
+          name="password"
+          value={this.state.authView === "login" ? this.state.password : ""}
+          placeholder="password">
+        </input>
+        <br />
+        <button disabled={disabled} onClick={this.submitLogin}>Log In</button>
+      </form>
+    )
   }
   render(){
 
@@ -185,21 +254,8 @@ class Authorization extends Component {
     return(
       <div>
         <StyledAuth>
-          <form onClick={this.setRegView} style={regStyle} >
-            <h1>Sign Up</h1>
-            { this.state.message && this.state.authView === "reg" ? <p> <small>{this.state.message}</small> <br/> </p> : <p> &nbsp; <br /> </p> }
-            <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "reg" ? this.state.username : ""} placeholder="username"></input> <br />
-            <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "reg" ? this.state.password : "" } placeholder="password"></input> <br />
-            <input  onChange={this.handleChange} type="password" name="confirmation" value={ this.state.authView === "reg" ? this.state.confirmation : "" } placeholder="confirm password"></input> <br /> 
-            <button disabled={regDisabled} onClick={this.submitReg}>Create Account</button> 
-          </form>
-          <form onClick={this.setLoginView} style={loginStyle}>
-            <h1>Log In</h1>
-            { this.state.message && this.state.authView === "login" ? <p> <small>{ this.state.authView === "login" ? this.state.message : "" } </small> <br /> </p> : <p> &nbsp; <br /> </p> }
-            <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "login" ? this.state.username : "" } placeholder="username"></input> <br/>
-            <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "login" ? this.state.password : "" } placeholder="password"></input> <br />
-            <button disabled={loginDisabled} onClick={this.submitLogin}>Log In</button>
-          </form>
+          {this.renderRegistration({ style: regStyle, disabled: regDisabled })}
+          {this.renderLogin({ style: loginStyle, disabled: loginDisabled })}
         </StyledAuth>
       </div>
     )
@@ -207,3 +263,26 @@ class Authorization extends Component {
 }
 
 export default Authorization;
+
+
+    // return(
+    //   <div>
+    //     <StyledAuth>
+    //       <form onClick={this.setRegView} style={regStyle} >
+    //         <h1>Sign Up</h1>
+    //         { this.state.message && this.state.authView === "reg" ? <p> <small>{this.state.message}</small> <br/> </p> : <p> &nbsp; <br /> </p> }
+    //         <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "reg" ? this.state.username : ""} placeholder="username"></input> <br />
+    //         <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "reg" ? this.state.password : "" } placeholder="password"></input> <br />
+    //         <input  onChange={this.handleChange} type="password" name="confirmation" value={ this.state.authView === "reg" ? this.state.confirmation : "" } placeholder="confirm password"></input> <br /> 
+    //         <button disabled={regDisabled} onClick={this.submitReg}>Create Account</button> 
+    //       </form>
+    //       <form onClick={this.setLoginView} style={loginStyle}>
+    //         <h1>Log In</h1>
+    //         { this.state.message && this.state.authView === "login" ? <p> <small>{ this.state.authView === "login" ? this.state.message : "" } </small> <br /> </p> : <p> &nbsp; <br /> </p> }
+    //         <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "login" ? this.state.username : "" } placeholder="username"></input> <br/>
+    //         <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "login" ? this.state.password : "" } placeholder="password"></input> <br />
+    //         <button disabled={loginDisabled} onClick={this.submitLogin}>Log In</button>
+    //       </form>
+    //     </StyledAuth>
+    //   </div>
+    // )

@@ -37,10 +37,14 @@ class App extends Component {
   }
   goTo = (destination) => {
     // acceptable inputs: "home", "authorization", "user", "game", "about"
-    this.setState({
-      page: destination,
-      message: ""
-    })
+    if (destination === "game") {
+      this.getImages();
+    } else {
+      this.setState({
+        page: destination,
+        message: ""
+      })
+    }
   }
   login = (username, userId, is_admin) => {
     this.setState({
@@ -93,9 +97,44 @@ class App extends Component {
       authView: authView 
     })
   }
-  getImages = (imageId = null) => {
-    // need to communicate w/ database; if no imageId is supplied, default value is null, 
-    // which should get totally random images for initial layout 
+  getImages = async (imageId = null) => {
+     try{
+       const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random`
+       const response = await fetch((imageURI), {
+         credentials: 'include',
+         headers: {
+           'Content-Type': 'application/json'
+         }
+       });
+       const responseJson = await response.json();
+
+       if (responseJson.status !== "good" || !responseJson.success) {
+        throw new Error("Failed to Load Page");
+       }
+
+       console.log(responseJson)
+       const newImages = [];
+
+       responseJson.rand_image_arr.forEach( (image) => {
+        newImages.push({id: image.id, url: image.image_url})
+       })
+
+       newImages.push({id: responseJson.image_id, url: responseJson.image_url})
+
+       this.setState({
+        page: "game",
+        currentImages: newImages
+       })
+
+    }catch(err){
+
+      console.log(err);
+
+      this.setState({
+        message: "Failed to load game",
+        page: "home"
+      })
+    }
   }
   render() {
     
