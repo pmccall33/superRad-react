@@ -11,11 +11,12 @@ const StyledAuth = styled.div`
 class Authorization extends Component {
   constructor(props){
     super();
-
-    let authView = props.authView 
+    let authView = props.authView
     if (props.authView !== "login") {
-      authView = "reg"
-    } 
+      authView = "reg";
+    } else if (props.authView == "login") {
+      // what
+    }
 
     this.state = {
       username: "",
@@ -23,13 +24,15 @@ class Authorization extends Component {
       confirmation: "",
       message: "",
       authView: authView
-    }
+    };
   }
-  handleChange = (evt) => {
+
+  handleChange = (e) => {
     this.setState({
-      [evt.currentTarget.name]: evt.currentTarget.value 
-    })
+      [e.currentTarget.name]: e.currentTarget.value
+    });
   }
+
   setLoginView = () => {
     if (this.state.authView !== "login") {
       this.setState({
@@ -38,9 +41,10 @@ class Authorization extends Component {
         confirmation: "",
         message: "",
         authView: "login"
-      })
+      });
     }
   }
+
   setRegView = () => {
     if (this.state.authView !== "reg") {
       this.setState({
@@ -49,28 +53,21 @@ class Authorization extends Component {
         confirmation: "",
         message: "",
         authView: "reg"
-      })      
+      });
     }
   }
-  submitLogin = async (evt) => {
 
-    evt.preventDefault();
+  submitLogin = async (e) => {
+    e.preventDefault();
+    const username = this.state.username;
+    const password = this.state.password;
 
     try {
-
-      if (!this.state.username || !this.state.password) {
-        this.setState({
-          username: "",
-          password: "",
-          confirmation: "",
-          message: "Invalid input"        
-        })
+      if (!username || !password) {
+        this.setState({ message: "Invalid input" });
       } else {
-
-        const username = this.state.username;
-        const password = this.state.password;
-
-        const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/login`), {
+        const loginURI = `${process.env.REACT_APP_API_URL}/api/v1/user/login`;
+        const response = await fetch((loginURI), {
           method: 'POST',
           credentials: 'include',
           body: JSON.stringify({
@@ -81,7 +78,7 @@ class Authorization extends Component {
             'Content-Type': 'application/json'
           }
         })
-        
+
         const responseJson = await response.json();
         console.log(responseJson);
 
@@ -89,66 +86,120 @@ class Authorization extends Component {
           username: "",
           password: "",
           confirmation: "",
-          message: "Sent"        
-        })
+          message: "Sent"
+        }, this.props.loginCallback(responseJson));
       }
-
-    } catch (err) {
-      if (err) {
-        console.log(err);
-      }
-    }
-  }
-  submitReg = async (evt) => {
-
-    evt.preventDefault();
-
-    try {
-      if (!this.state.username || !this.state.password) {
-        this.setState({
-          username: "",
-          password: "",
-          confirmation: "",
-          message: "Invalid input"        
-        })
-      } else if (this.state.password !== this.state.confirmation) {
-        this.setState({
-          username: "",
-          password: "",
-          confirmation: "",
-          message: "Password =/= confirm" 
-        })
-      } else {
-
-          const username = this.state.username;
-          const password = this.state.password;
-
-          const response = await fetch((`${process.env.REACT_APP_API_URL}/api/v1/user/register`), {
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({
-              username: username,
-              password: password
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-          
-          const responseJson = await response.json();
-          console.log(responseJson);
-
-          this.setState({
-            username: "",
-            password: "",
-            confirmation: "",
-            message: "Sent"        
-          })
-        }      
     } catch(err) {
       console.log(err);
     }
   }
+
+  submitReg = async (e) => {
+    e.preventDefault();
+    try {
+      const username = this.state.username;
+      const password = this.state.password;
+      const confirmation = this.state.confirmation;
+
+      if (!username || !password) {
+        this.setState({ message: "Invalid input" });
+      } else if (password !== confirmation) {
+        this.setState({ message: "Password =/= confirm" });
+      } else {
+        const registerURI = `${process.env.REACT_APP_API_URL}/api/v1/user/register`
+        const response = await fetch((registerURI), {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({
+            username: username,
+            password: password
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const responseJson = await response.json();
+        console.log(responseJson);
+
+        this.setState({
+          username: "",
+          password: "",
+          confirmation: "",
+          message: "Sent"
+        }, this.props.registrationCallback(responseJson));
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  renderRegistration = ({style, disabled}) => {
+    return(
+      <form onClick={this.setRegView} style={style}>
+        <h1>Sign Up</h1>
+        <p>
+          <small>{this.state.authView === "reg" && this.state.message}</small>
+          <br/>
+        </p>
+        <input
+          onChange={this.handleChange}
+          type="text"
+          name="username"
+          value={this.state.authView === "reg" ? this.state.username : ""}
+          placeholder="username">
+        </input>
+        <br />
+        <input
+          onChange={this.handleChange}
+          type="password"
+          name="password"
+          value={this.state.authView === "reg" ? this.state.password : ""}
+          placeholder="password">
+        </input>
+        <br />
+        <input
+          onChange={this.handleChange}
+          type="password"
+          name="confirmation"
+          value={this.state.authView === "reg" ? this.state.confirmation : ""}
+          placeholder="confirm password">
+        </input>
+        <br />
+        <button disabled={disabled} onClick={this.submitReg}>Create Account</button>
+      </form>
+    )
+  }
+
+  renderLogin = ({style, disabled}) => {
+    return(
+      <form onClick={this.setLoginView} style={style}>
+        <h1>Log In</h1>
+        <p>
+          <small>{this.state.authView === "login" && this.state.message}</small>
+          <br />
+        </p>
+        <input
+          onChange={this.handleChange}
+          type="text"
+          name="username"
+          value={this.state.authView === "login" ? this.state.username : ""}
+          placeholder="username">
+        </input>
+        <br/>
+        <input
+          onChange={this.handleChange}
+          type="password"
+          name="password"
+          value={this.state.authView === "login" ? this.state.password : ""}
+          placeholder="password">
+        </input>
+        <br />
+        <button disabled={disabled} onClick={this.submitLogin}>Log In</button>
+      </form>
+    )
+  }
+
   render(){
 
     let loginDisabled = false;
@@ -167,21 +218,8 @@ class Authorization extends Component {
     return(
       <div>
         <StyledAuth>
-          <form onClick={this.setRegView} style={regStyle} >
-            <h1>Sign Up</h1>
-            { this.state.message && this.state.authView === "reg" ? <p> <small>{this.state.message}</small> <br/> </p> : <p> &nbsp; <br /> </p> }
-            <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "reg" ? this.state.username : ""} placeholder="username"></input> <br />
-            <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "reg" ? this.state.password : "" } placeholder="password"></input> <br />
-            <input  onChange={this.handleChange} type="password" name="confirmation" value={ this.state.authView === "reg" ? this.state.confirmation : "" } placeholder="confirm password"></input> <br /> 
-            <button disabled={regDisabled} onClick={this.submitReg}>Create Account</button> 
-          </form>
-          <form onClick={this.setLoginView} style={loginStyle}>
-            <h1>Log In</h1>
-            { this.state.message && this.state.authView === "login" ? <p> <small>{ this.state.authView === "login" ? this.state.message : "" } </small> <br /> </p> : <p> &nbsp; <br /> </p> }
-            <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "login" ? this.state.username : "" } placeholder="username"></input> <br/>
-            <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "login" ? this.state.password : "" } placeholder="password"></input> <br />
-            <button disabled={loginDisabled} onClick={this.submitLogin}>Log In</button>
-          </form>
+          {this.renderRegistration({ style: regStyle, disabled: regDisabled })}
+          {this.renderLogin({ style: loginStyle, disabled: loginDisabled })}
         </StyledAuth>
       </div>
     )

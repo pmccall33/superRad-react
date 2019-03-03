@@ -20,7 +20,7 @@ class Footer extends Component {
     return (
       <div>
         <StyledFooter>
-          <p>this is the footer</p>
+          <p>made with ♡ by Dakotah, Nathan, and Peter</p>
         </StyledFooter>
       </div>
     )

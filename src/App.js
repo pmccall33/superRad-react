@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       username: "",
-      userId: "",
+      // userId: "",
       admin: false,
       pathId: "",
       page: "home",
@@ -22,35 +22,46 @@ class App extends Component {
       authView: "reg"  // --> "reg" -- displays SIGN UP, "login" -- displays LOG IN
     }
   }
+
+  setLogin = ({username}) => {
+    this.setState({ username, loggedIn: true });
+  }
+
   goTo = (destination) => {
-    this.setState({
-      page: destination
-    })
+    this.setState({ page: destination });
   }
-  register = (formData) => {
-    console.log("Register function fired! formData: ")
-    console.log(formData)
+
+  registrationCallback = (data) => {
+    console.log("Register function fired! data: ");
+    console.log(data);
+    this.setLogin(data);
   }
-  login = (formData) => {
-    console.log("Login function fired! formData: ")
-    console.log(formData)
+
+  loginCallback = (data) => {
+    console.log("Login function fired! data: ");
+    console.log(data);
+    this.setLogin(data);
   }
+
   setAuthView = (authView) => {
     // acceptable inputs: "reg", "login"
-    this.setState({
-      authView: authView
-    })
+    this.setState({ authView: authView });
   }
-  getImages = (imageId = null) => {
-    
-    // need to communicate w/ database; if no imageId is supplied, default value is null,
-    // which should get totally random images for initial layout
-  }
+
+  // need to communicate w/ database; if no imageId is supplied, default value is null,
+  // which should get totally random images for initial layout
   render() {
+    const {loggedIn} = this.state;
     return (
       <div className="App">
         <Nav />
-        <Authorization authView={this.state.authView} register={this.register} login={this.login} />
+        {loggedIn && <Content />}
+        {!loggedIn &&
+          <Authorization
+            authView={this.state.authView}
+            registrationCallback={this.registrationCallback}
+            loginCallback={this.loginCallback}
+          />}
         <Footer />
       </div>
     );

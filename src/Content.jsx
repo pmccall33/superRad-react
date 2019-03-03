@@ -7,9 +7,33 @@ const StyledContent = styled.div`
 `
 
  class Content extends React.Component {
+   state = {
+     image: null
+   }
+
+   componentDidMount = () => {
+     this.getImage()
+   }
+
+   getImage = async () => {
+     try{
+       const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random`
+       const response = await fetch((imageURI), {
+         credentials: 'include',
+         headers: {
+           'Content-Type': 'application/json'
+         }
+       });
+       const responseJson = await response.json();
+       // this.setState(image)
+       console.log(responseJson);
+     }catch(err){
+       return err;
+     }
+   }
    render() {
      return(
-         <StyledContent>test</StyledContent>
+       <StyledContent></StyledContent>
      )
    }
  }
