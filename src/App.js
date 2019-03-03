@@ -27,13 +27,14 @@ class App extends Component {
       loggedIn: false,
       message: "",
       username: "",
-      // userId: "",
+      userId: "",
       admin: false,
       firstLoad: true,
       pathId: "",
       page: "home",  // --> "home", "authorization", "user", "game", "about"
       sessionImageIds: [],
-      currentImages: []
+      currentImages: [],
+      currentPathImages: []
     }
   }
   setLogin = ({username}) => {
@@ -57,7 +58,8 @@ class App extends Component {
       userId: userId,
       admin: is_admin,
       page: "home",
-      message: `Logged in as ${username}`
+      message: `Logged in as ${username}`,
+      currentPathImages: []
     })
   }
   logout = async () => {
@@ -87,7 +89,9 @@ class App extends Component {
           userId: "",
           admin: false,
           message: `Logged out user ${userLoggedOut}`,
-          page: "authorization"
+          page: "authorization",
+          currentImages: [],
+          currentPathImages: []
         })
       }
 
@@ -103,7 +107,7 @@ class App extends Component {
   }
   getImages = async () => {
      try{
-      if (this.state.currentImages.length === 0 && this.state.firstLoad) {
+      if (this.state.currentImages.length === 0) {
        const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random/4`
        const response = await fetch((imageURI), {
          credentials: 'include',
@@ -147,6 +151,24 @@ class App extends Component {
       })
     }
   }
+  setCurrentImages = (imageArray, selectedImageId, selectedImageUrl) => {
+    
+    let currentPath = this.state.currentPathImages;
+
+    if (this.state.loggedIn) {
+      const newImage = ({id: selectedImageId, url: selectedImageUrl})
+      currentPath.push(newImage);    
+    }
+
+    if (!selectedImageId || !selectedImageUrl) {
+      currentPath = []
+    }
+
+    this.setState({
+      currentImages: imageArray,
+      currentPathImages: currentPath
+    })
+  }
   render() {    
     console.log("APP STATE: ", this.state)
 
@@ -159,7 +181,7 @@ class App extends Component {
         </StyledDiv>
         { this.state.page === "authorization" ? <Authorization data={this.state} register={this.register} login={this.login} /> : null }
         { this.state.page === "home" ? <Home data={this.state} /> : null }
-        { this.state.page === "game" ? <Game data={this.state} getImages={this.getImages} /> : null }
+        { this.state.page === "game" ? <Game data={this.state} getImages={this.getImages} setCurrentImages={this.setCurrentImages} /> : null }
         { this.state.page === "about" ? <About /> : null }
         <Footer />
       </div>

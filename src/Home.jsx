@@ -23,7 +23,7 @@ const StyledDiv = styled.div`
 function Home (props) {
   return (
 		<StyledDiv>
-      { props.data.loggedIn ? <User /> : <h1> HOME PAGE RENDERED </h1> }
+      { props.data.loggedIn ? <User data={props.data} /> : <h1> HOME PAGE RENDERED </h1> }
 		</StyledDiv>
 	)
 }
