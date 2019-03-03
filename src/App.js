@@ -104,7 +104,7 @@ class App extends Component {
   getImages = async () => {
      try{
       if (this.state.currentImages.length === 0 && this.state.firstLoad) {
-       const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random`
+       const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random/4`
        const response = await fetch((imageURI), {
          credentials: 'include',
          headers: {

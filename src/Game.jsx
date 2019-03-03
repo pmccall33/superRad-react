@@ -4,18 +4,22 @@ import  styled from 'styled-components';
 // Components: 
 import Content from './Content.jsx';
 
-
-  // a, span {
-  //   text-decoration: none;
-  //   color: black
-  // }
-  // a:hover, span:hover {
-  //   text-decoration: underline;
-  //   color: #4cf0ce;
-  //   cursor: pointer;
-  // }
-
 const StyledDiv = styled.div`
+	.center {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	span {
+		text-decoration: none;
+		color: black;
+		display: block;
+	}
+	span:hover {
+		text-decoration: underline;
+		color: #4cf0ce;
+		cursor: pointer;
+	}
 	h1 {
 		margin-left: 20px;
 	}
@@ -55,21 +59,45 @@ class Game extends Component {
 			console.log(responseJson)
 			const newImages = [];
 
-			responseJson.rand_image_arr.forEach( (image) => {
+			responseJson.image_arr.forEach( (image) => {
 				newImages.push({id: image.id, url: image.image_url})
 			})
 
-			this.setState({
-				images: newImages,
-			})
+			if (newImages.length < 4) {
+				const additionalImages = this.getNewRandomImages(4 - newImages.length)
+				newImages.concat(additionalImages);
+			}
+
+			this.setImages(newImages)
+
+		} catch (err) {
+			console.log(err);
+			const newLayout = this.getNewRandomImages(4);
+			this.setImages(newLayout);
+		}
+	}
+	setImages = (imageArray) => {
+
+		while (imageArray.length > 4) {
+			imageArray.pop()
+		}
+
+		this.setState({
+			images: imageArray
+		})
+	}
+	newLayout = async () => {
+		try {
+			const newLayout = await this.getNewRandomImages(4);		
+			this.setImages(newLayout);
 		} catch (err) {
 			console.log(err);
 		}
 	}
-	getNewRandomImages = async () => {
+	getNewRandomImages = async (num) => {
 		try {
 
-			const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random`
+			const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random/${num}`
 			const response = await fetch((imageURI), {
 				credentials: 'include',
 				headers: {
@@ -84,15 +112,13 @@ class Game extends Component {
 			}
 
 			console.log(responseJson)
-			const newImages = [];
+			const newRandomImages = [];
 
 			responseJson.rand_image_arr.forEach( (image) => {
-				newImages.push({id: image.id, url: image.image_url})
+				newRandomImages.push({id: image.id, url: image.image_url})
 			})
 
-			this.setState({
-				images: newImages
-			})
+			return newRandomImages
 
 		} catch (err) {
 			console.log(err);
@@ -101,6 +127,9 @@ class Game extends Component {
 	render(){
 		return (
 			<StyledDiv>
+				<div className="center">
+					<span onClick={this.newLayout}> New Random Layout </span>
+				</div>
 				<Content images={this.state.images} getSelectedImages={this.getSelectedImages} />
 			</StyledDiv>
 		)

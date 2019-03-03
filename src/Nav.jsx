@@ -29,10 +29,10 @@ const Nav = (props) => {
     <div>
         <StyledH1 className="exception">super rad </StyledH1>
       <StyledNav>
-        { !props.data.loggedIn ? <span onClick={props.goTo.bind(null, "authorization")}> sign in / register</span> : null }
         <span onClick={props.goTo.bind(null, "home")}> home </span>
         <span onClick={props.goTo.bind(null, "game")}> game </span>
         <span onClick={props.goTo.bind(null, "about")}> about </span> 
+        { !props.data.loggedIn ? <span onClick={props.goTo.bind(null, "authorization")}> sign in / register</span> : null }
         { props.data.loggedIn ? <span onClick={props.logout}> logout </span> : null }
     </StyledNav>
   </div>
