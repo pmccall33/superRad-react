@@ -50,30 +50,29 @@ class Game extends Component {
 			const responseJson = await response.json();
 
 			if (responseJson.status !== "good" || !responseJson.success) {
-				console.log("something's wrong... response: ");
+				console.log("response: ");
 				console.log(responseJson);;
-				this.getNewRandomImages();
+				await this.newLayout();
 				return 
 			}
 
-			console.log(responseJson)
-			const newImages = [];
+			let newImages = [];
 
 			responseJson.image_arr.forEach( (image) => {
 				newImages.push({id: image.id, url: image.image_url})
 			})
 
+
 			if (newImages.length < 4) {
-				const additionalImages = this.getNewRandomImages(4 - newImages.length)
-				newImages.concat(additionalImages);
+				const additionalImages = await this.getNewRandomImages(4 - newImages.length)
+				newImages = newImages.concat(additionalImages);
 			}
 
 			this.setImages(newImages)
 
 		} catch (err) {
 			console.log(err);
-			const newLayout = this.getNewRandomImages(4);
-			this.setImages(newLayout);
+			this.newLayout();
 		}
 	}
 	setImages = (imageArray) => {
