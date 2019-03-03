@@ -48,6 +48,7 @@ class Game extends Component {
 			if (responseJson.status !== "good" || !responseJson.success) {
 				console.log("something's wrong... response: ");
 				console.log(responseJson);;
+				this.getNewRandomImages();
 				return 
 			}
 
@@ -61,6 +62,38 @@ class Game extends Component {
 			this.setState({
 				images: newImages,
 			})
+		} catch (err) {
+			console.log(err);
+		}
+	}
+	getNewRandomImages = async () => {
+		try {
+
+			const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random`
+			const response = await fetch((imageURI), {
+				credentials: 'include',
+				headers: {
+				'Content-Type': 'application/json'
+				}
+			});
+			
+			const responseJson = await response.json();
+
+			if (responseJson.status !== "good" || !responseJson.success) {
+				throw new Error("Failed to Load Page");
+			}
+
+			console.log(responseJson)
+			const newImages = [];
+
+			responseJson.rand_image_arr.forEach( (image) => {
+				newImages.push({id: image.id, url: image.image_url})
+			})
+
+			this.setState({
+				images: newImages
+			})
+
 		} catch (err) {
 			console.log(err);
 		}
