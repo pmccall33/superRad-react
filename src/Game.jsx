@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import  styled from 'styled-components'; 
+import  styled from 'styled-components';
 
-// Components: 
+// Components:
 import Content from './Content.jsx';
 
 const StyledDiv = styled.div`
@@ -46,14 +46,14 @@ class Game extends Component {
 				'Content-Type': 'application/json'
 				}
 			});
-			
+
 			const responseJson = await response.json();
 
 			if (responseJson.status !== "good" || !responseJson.success) {
 				console.log("response: ");
 				console.log(responseJson);;
 				await this.newLayout();
-				return 
+				return
 			}
 
 			let newImages = [];
@@ -87,7 +87,7 @@ class Game extends Component {
 	}
 	newLayout = async () => {
 		try {
-			const newLayout = await this.getNewRandomImages(4);		
+			const newLayout = await this.getNewRandomImages(4);
 			this.setImages(newLayout);
 		} catch (err) {
 			console.log(err);
@@ -103,7 +103,7 @@ class Game extends Component {
 				'Content-Type': 'application/json'
 				}
 			});
-			
+
 			const responseJson = await response.json();
 
 			if (responseJson.status !== "good" || !responseJson.success) {
@@ -127,7 +127,7 @@ class Game extends Component {
 		return (
 			<StyledDiv>
 				<div className="center">
-					<span onClick={this.newLayout}> New Random Layout </span>
+					<span onClick={this.newLayout}>Randomize</span>
 				</div>
 				<Content images={this.state.images} getSelectedImages={this.getSelectedImages} />
 			</StyledDiv>
