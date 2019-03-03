@@ -28,13 +28,47 @@ class Game extends Component {
 			loggedIn: props.data.loggedIn,
 			username: props.data.username,
 			userId: props.data.userId,
-			images: props.data.currentImages
+			images: props.data.currentImages,
+			firstLoad: props.data.firstLoad
+		}
+	}
+	getSelectedImages = async (imageId) => {
+
+		console.log(imageId);
+
+		try {
+			const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random`
+			const response = await fetch((imageURI), {
+				credentials: 'include',
+				headers: {
+				'Content-Type': 'application/json'
+				}
+			});
+			
+			const responseJson = await response.json();
+
+			if (responseJson.status !== "good" || !responseJson.success) {
+				throw new Error("Failed to Load Page");
+			}
+
+			console.log(responseJson)
+			const newImages = [];
+
+			responseJson.rand_image_arr.forEach( (image) => {
+				newImages.push({id: image.id, url: image.image_url})
+			})
+
+			this.setState({
+				images: newImages,
+			})
+		} catch (err) {
+			console.log(err);
 		}
 	}
 	render(){
 		return (
 			<StyledDiv>
-				<Content images={this.state.images} />
+				<Content images={this.state.images} getSelectedImages={this.getSelectedImages} />
 			</StyledDiv>
 		)
 	}

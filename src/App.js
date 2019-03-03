@@ -29,6 +29,7 @@ class App extends Component {
       username: "",
       // userId: "",
       admin: false,
+      firstLoad: true,
       pathId: "",
       page: "home",  // --> "home", "authorization", "user", "game", "about"
       sessionImageIds: [],
@@ -100,8 +101,9 @@ class App extends Component {
       authView: authView 
     })
   }
-  getImages = async (imageId = null) => {
+  getImages = async () => {
      try{
+      if (this.state.currentImages.length === 0 && this.state.firstLoad) {
        const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/random`
        const response = await fetch((imageURI), {
          credentials: 'include',
@@ -125,10 +127,17 @@ class App extends Component {
        this.setState({
         page: "game",
         message: "",
-        currentImages: newImages
+        currentImages: newImages,
+        firstLoad: false
        })
-
-    }catch(err){
+      } else {
+        this.setState({
+          message: "",
+          page: "game",
+          firstLoad: false
+        })
+      }
+    } catch (err) {
 
       console.log(err);
 

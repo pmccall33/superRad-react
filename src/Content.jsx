@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const StyledContent = styled.div`
   width: 100%;
+  min-height: 500px;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
@@ -19,6 +20,7 @@ const StyledContent = styled.div`
   img {
     max-width: 180px;
     padding: 10px;
+    cursor: pointer;
   }
 `
 
@@ -28,7 +30,7 @@ const Content = (props) => {
 
   const layout = props.images.map((image, i) => {
     return (
-      <img alt="game" key={i} id={image.id} src={image.url} />
+      <img onClick={props.getSelectedImages.bind(null, image.id)} alt="game" key={i} id={image.id} src={image.url} />
     )
   })
 
