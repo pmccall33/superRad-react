@@ -1,68 +1,30 @@
+# super rad 
+### An image adventure app 
+
+Back-end repo: https://github.com/pmccall33/super-rad-app-sinatra
+
+'super rad' is a project put together by Dakotah Ducharme, Nathan Smith, and Peter Murray. It aims to dupe the website [superbad](http://superbad.com/), an obscure, random site with gifs, images, and blocks of text that lead the user to different paths based on where the user clicks.
+
+'super rad' is powered by a back-end server (linked above) that is also fullstack app. The back-end is an "image tagger" app through which users can add single-word tags to images stored in a SQL database. Users with admin access privileges may upload new images to the database. 
+
+The back-end functions as an API that returns images from the database. The initial layout of images is random, but subsequent images are selected based on a relational algorithm that finds other images with similar tags. 
+
+## User story
+1. The game page initially displays a random layout of 4 clickable images 
+2. Clicking on an image will load another display of 4 images, some of which are related to the image they clicked (via tags), others of which are random 
+3. Users may register to create an account, or log in to an existing account 
+4. If logged in, users can view their "path" — the images they have clicked on during that session 
+
+## Wireframes 
+### Home: 
+![homepage](https://github.com/dakotahducharme/super-rad-react/blob/master/wireframes/homepage_ex.png)
+### Login: 
+![login](https://github.com/dakotahducharme/super-rad-react/blob/master/wireframes/login.png)
+### Favorite paths: 
+![favorites](https://github.com/dakotahducharme/super-rad-react/blob/master/wireframes/favorites.png)
+### Image Layouts: 
+![img](https://github.com/dakotahducharme/super-rad-react/blob/master/wireframes/img_ex.png)
+![double_img](https://github.com/dakotahducharme/super-rad-react/blob/master/wireframes/double_img.png)
+![asym_img](https://github.com/dakotahducharme/super-rad-react/blob/master/wireframes/asym_img.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
