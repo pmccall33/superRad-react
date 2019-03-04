@@ -1,7 +1,7 @@
 import React from 'react';
-import  styled from 'styled-components'; 
+import  styled from 'styled-components';
 
-// Components 
+// Components
 import User from './User.jsx';
 
   // a, span {
@@ -23,7 +23,7 @@ const StyledDiv = styled.div`
 function Home (props) {
   return (
 		<StyledDiv>
-      { props.data.loggedIn ? <User /> : <h1> HOME PAGE RENDERED </h1> }
+      { props.data.loggedIn ? <User /> : <h1>  </h1> }
 		</StyledDiv>
 	)
 }

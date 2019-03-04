@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import styled from 'styled-components'
-
-// import Content from './Content.jsx';
-
-// Components: 
+// Components:
 import Nav from './Nav.jsx';
 import Footer from './Footer.jsx';
 import Home from './Home.jsx';
@@ -18,6 +15,19 @@ const StyledDiv = styled.div`
   .shift {
     margin-left: 20px;
   }
+`
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100vw;
+  min-height: 100vh;
+`
+
+const ContentContainer = styled.div`
+  flex-grow: 2;
 `
 
 class App extends Component {
@@ -98,7 +108,7 @@ class App extends Component {
   setAuthView = (authView) => {
     // acceptable inputs: "reg", "login"
     this.setState({
-      authView: authView 
+      authView: authView
     })
   }
   getImages = async () => {
@@ -147,22 +157,37 @@ class App extends Component {
       })
     }
   }
-  render() {    
+  render() {
     console.log("APP STATE: ", this.state)
 
     return (
-      <div className="App">
-        <Nav data={this.state} goTo={this.goTo} logout={this.logout} />
-        <StyledDiv>
-          { this.state.message ? <span className="shift">{this.state.message}</span> : null } 
-         { !this.state.message && this.state.loggedIn ? <span className="shift"> user: {this.state.username} </span> : <span> &nbsp; </span> }
-        </StyledDiv>
-        { this.state.page === "authorization" ? <Authorization data={this.state} register={this.register} login={this.login} /> : null }
-        { this.state.page === "home" ? <Home data={this.state} /> : null }
-        { this.state.page === "game" ? <Game data={this.state} getImages={this.getImages} /> : null }
-        { this.state.page === "about" ? <About /> : null }
+      <AppContainer className="App">
+        <Nav data={this.state}
+          goTo={this.goTo}
+          logout={this.logout}
+        />
+        <ContentContainer>
+          <StyledDiv>
+            {this.state.message && <span className="shift">{this.state.message}</span>}
+            {!this.state.message && this.state.loggedIn ?
+              <span className="shift">user: {this.state.username}</span>
+            :
+              <span>&nbsp;</span>
+            }
+          </StyledDiv>
+          {this.state.page === "authorization" &&
+            <Authorization
+              data={this.state}
+              register={this.register}
+              login={this.login}
+            />
+          }
+          {this.state.page === "home" && <Home data={this.state} />}
+          {this.state.page === "game" && <Game data={this.state} getImages={this.getImages} />}
+          {this.state.page === "about" && <About />}
+        </ContentContainer>
         <Footer />
-      </div>
+      </AppContainer>
     );
   }
 }
