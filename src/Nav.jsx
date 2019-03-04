@@ -29,7 +29,7 @@ const Nav = (props) => {
       <StyledH1 className="exception">super rad</StyledH1>
       <StyledNav>
         <span onClick={props.goTo.bind(null, "home")}>home</span>
-        <span onClick={props.goTo.bind(null, "game")}>game</span>
+      <span onClick={props.goTo.bind(null, "game")}>play</span>
         <span onClick={props.goTo.bind(null, "about")}>about</span>
         {!props.data.loggedIn &&
           <span onClick={props.goTo.bind(null, "authorization")}>

@@ -14,29 +14,23 @@ const StyledDiv = styled.div`
   main > * {
     margin-left: 20px;
   }
+  a {
+    text-decoration: underline;
+  }
 `
 
 function About (props) {
 	return (
 		<StyledDiv>
       <main>
-    		<h1>ABOUT PAGE</h1>
+    		<h2>about</h2>
+      <p>our github links:</p>
     		<a href="https://github.com/dakotahducharme/super-rad-react" target="_blank" rel="noopener noreferrer"> front end repo </a> <br />
         	<a href="https://github.com/pmccall33/super-rad-app-sinatra" target="_blank" rel="noopener noreferrer"> back end repo </a> <br />
 
-            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p> 'super rad' is a project put together by Dakotah Ducharme, Nathan Smith, and Peter Murray. It aims to dupe the website <a href="https://superbad.com">superbad</a>, an obscure, random site with gifs, images, and blocks of text that lead the user to different paths based on where the user clicks.</p>
 
-    	    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>While it's quite bare (for now, at least), super rad achieves the goal of leading the user to differnet paths based on the image or gif they clicked. We created a database to store the images and a seperate application where users can submit and tag images for the database to use. When signed in, the user can navigate through these paths, and even see more relevant images based on the tags of the image that they clicked on.</p>
       </main>
 		</StyledDiv>
 	)
