@@ -9,6 +9,7 @@ const StyledDiv = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		color: #607D8B;
 	}
 	span {
 		text-decoration: none;
