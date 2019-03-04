@@ -9,24 +9,27 @@ const StyledNav = styled.nav`
   align-items: center;
   span {
     text-decoration: none;
-    color: black;
+    color: #607D8B;
     padding: 20px;
   }
   span:hover {
     text-decoration: underline;
-    color: #4cf0ce;
+    color: #009688;
     cursor: pointer;
   }
 `;
 
-const StyledH1 = styled.h1`
+const Logo = styled.h1`
   margin-left: 20px;
+  span {
+    color: #8BC34A;
+  }
 `;
 
 const Nav = (props) => {
   return (
     <div>
-      <StyledH1 className="exception">super rad</StyledH1>
+      <Logo className="exception">super<span>rad</span></Logo>
       <StyledNav>
         <span onClick={props.goTo.bind(null, "home")}>home</span>
       <span onClick={props.goTo.bind(null, "game")}>play</span>

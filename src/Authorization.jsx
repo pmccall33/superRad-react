@@ -25,7 +25,7 @@ class Authorization extends Component {
   }
   handleChange = (evt) => {
     this.setState({
-      [evt.currentTarget.name]: evt.currentTarget.value 
+      [evt.currentTarget.name]: evt.currentTarget.value
     })
   }
   setLoginView = () => {
@@ -47,7 +47,7 @@ class Authorization extends Component {
         confirmation: "",
         message: "",
         authView: "reg"
-      })      
+      })
     }
   }
   submitLogin = async (evt) => {
@@ -61,7 +61,7 @@ class Authorization extends Component {
           username: "",
           password: "",
           confirmation: "",
-          message: "Invalid input"        
+          message: "Invalid input"
         })
       } else {
 
@@ -80,7 +80,7 @@ class Authorization extends Component {
             'Content-Type': 'application/json'
           }
         })
-        
+
         const responseJson = await response.json();
         console.log(responseJson);
 
@@ -89,17 +89,17 @@ class Authorization extends Component {
           this.setState({
             username: "",
             password: "",
-            confirmation: "", 
+            confirmation: "",
           })
-        
+
           this.props.login(responseJson.username, responseJson.userId, responseJson.is_admin)
-        
+
         } else {
           this.setState({
             username: "",
             password: "",
             confirmation: "",
-            message: "Failed to log in"             
+            message: "Failed to log in"
           })
         }
       }
@@ -119,14 +119,14 @@ class Authorization extends Component {
           username: "",
           password: "",
           confirmation: "",
-          message: "Invalid input"        
+          message: "Invalid input"
         })
       } else if (this.state.password !== this.state.confirmation) {
         this.setState({
           username: "",
           password: "",
           confirmation: "",
-          message: "Password =/= confirm" 
+          message: "Password =/= confirm"
         })
       } else {
 
@@ -145,7 +145,7 @@ class Authorization extends Component {
               'Content-Type': 'application/json'
             }
           });
-          
+
           const responseJson = await response.json();
           console.log(responseJson);
 
@@ -163,7 +163,7 @@ class Authorization extends Component {
               username: "",
               password: "",
               confirmation: "",
-              message: "Registration failed"             
+              message: "Registration failed"
             })
           }
 
@@ -175,7 +175,7 @@ class Authorization extends Component {
   renderRegistration = ({style, disabled}) => {
     return(
       <form onClick={this.setRegView} style={style}>
-        <h1>Sign Up</h1>
+        <h1 class="heading">Sign Up</h1>
         <p>
           <small>{this.state.authView === "reg" && this.state.message}</small>
           <br/>
@@ -211,7 +211,7 @@ class Authorization extends Component {
   renderLogin = ({style, disabled}) => {
     return(
       <form onClick={this.setLoginView} style={style}>
-        <h1>Log In</h1>
+        <h1 class="heading">Log In</h1>
         <p>
           <small>{this.state.authView === "login" && this.state.message}</small>
           <br />
@@ -263,4 +263,3 @@ class Authorization extends Component {
 }
 
 export default Authorization;
-

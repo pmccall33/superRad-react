@@ -1,4 +1,4 @@
-/* css */ 
+/* css */
 
 body {
   background-color: #e2e2e220;
@@ -7,4 +7,8 @@ body {
 
 .App {
 	min-width: 440px;
+}
+
+.heading{
+  color: #FF9800;
 }

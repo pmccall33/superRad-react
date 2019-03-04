@@ -23,7 +23,7 @@ function About (props) {
 	return (
 		<StyledDiv>
       <main>
-    		<h2>about</h2>
+    		<h2 class="heading">about</h2>
       <p>our github links:</p>
     		<a href="https://github.com/dakotahducharme/super-rad-react" target="_blank" rel="noopener noreferrer"> front end repo </a> <br />
         	<a href="https://github.com/pmccall33/super-rad-app-sinatra" target="_blank" rel="noopener noreferrer"> back end repo </a> <br />
