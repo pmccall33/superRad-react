@@ -26,11 +26,9 @@ const StyledContent = styled.div`
 
 const Content = (props) => {
 
-  console.log("GAME PROPS: ", props)
-
   const layout = props.images.map((image, i) => {
     return (
-      <img onClick={props.getSelectedImages.bind(null, image.id)} alt="game" key={i} id={image.id} src={image.url} />
+      <img onClick={props.getSelectedImages.bind(null, image.id, image.url)} alt="game" key={i} id={image.id} src={image.url} />
     )
   })
 
