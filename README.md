@@ -3,7 +3,7 @@
 
 Back-end repo: https://github.com/pmccall33/super-rad-app-sinatra
 
-'super rad' is a project put together by Dakotah Ducharme, Nathan Smith, and Peter Murray. It aims to dupe the website ![superbad](http://superbad.com/), an obscure, random site with gifs, images, and blocks of text that lead the user to different paths based on where the user clicks.
+'super rad' is a project put together by Dakotah Ducharme, Nathan Smith, and Peter Murray. It aims to dupe the website [superbad](http://superbad.com/), an obscure, random site with gifs, images, and blocks of text that lead the user to different paths based on where the user clicks.
 
 'super rad' is powered by a back-end server (linked above) that is also fullstack app. The back-end is an "image tagger" app through which users can add single-word tags to images stored in a SQL database. Users with admin access privileges may upload new images to the database. 
 
