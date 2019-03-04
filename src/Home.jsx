@@ -22,7 +22,7 @@ const StyledDiv = styled.div`
 function Home (props) {
   return (
 		<StyledDiv>
-      { props.data.loggedIn ? <User /> :
+      { props.data.loggedIn ? <User data={props.data} /> :
         <div>
          <h2> objective </h2>
          <p>Objective? What's an objective? No, really though, your only objective should be to enjoy seeing all sorts of weird images, cool looking gifs, and occasionally portraits of historical figures (because why not, you know?)</p>
