@@ -205,7 +205,7 @@ class App extends Component {
             />
           }
           {this.state.page === "home" && <Home data={this.state} />}
-          {this.state.page === "game" && <Game data={this.state} getImages={this.getImages} />}
+          {this.state.page === "game" && <Game data={this.state} getImages={this.getImages} setCurrentImages={this.setCurrentImages} />}
           {this.state.page === "about" && <About />}
         </ContentContainer>
         <Footer />
