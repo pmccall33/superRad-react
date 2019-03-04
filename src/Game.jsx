@@ -36,9 +36,10 @@ class Game extends Component {
 			firstLoad: props.data.firstLoad
 		}
 	}
-	getSelectedImages = async (imageId) => {
+	getSelectedImages = async (imageId, imageUrl) => {
 
 		try {
+
 			const imageURI = `${process.env.REACT_APP_API_URL}/api/v1/image/${imageId}`
 			const response = await fetch((imageURI), {
 				credentials: 'include',
@@ -51,8 +52,8 @@ class Game extends Component {
 
 			if (responseJson.status !== "good" || !responseJson.success) {
 				console.log("response: ");
-				console.log(responseJson);;
-				await this.newLayout();
+				console.log(responseJson);
+				await this.newLayout(imageId, imageUrl);
 				return
 			}
 
@@ -68,14 +69,14 @@ class Game extends Component {
 				newImages = newImages.concat(additionalImages);
 			}
 
-			this.setImages(newImages)
+			this.setImages(newImages, imageId, imageUrl)
 
 		} catch (err) {
 			console.log(err);
-			this.newLayout();
+			this.newLayout(imageId, imageUrl);
 		}
 	}
-	setImages = (imageArray) => {
+	setImages = (imageArray, selectedId, selectedUrl) => {
 
 		while (imageArray.length > 4) {
 			imageArray.pop()
@@ -84,11 +85,17 @@ class Game extends Component {
 		this.setState({
 			images: imageArray
 		})
+
+		this.props.setCurrentImages(imageArray, selectedId, selectedUrl)
+
+		// this.setState({
+		// 	images: imageArray
+		// })
 	}
-	newLayout = async () => {
+	newLayout = async (imageId, imageUrl) => {
 		try {
 			const newLayout = await this.getNewRandomImages(4);
-			this.setImages(newLayout);
+			this.setImages(newLayout, imageId, imageUrl);
 		} catch (err) {
 			console.log(err);
 		}
@@ -124,10 +131,17 @@ class Game extends Component {
 		}
 	}
 	render(){
+
+		let word = "Randomize"
+
+		if (this.state.loggedIn) {
+			word = "Reset Path"
+		}
+
 		return (
 			<StyledDiv>
 				<div className="center">
-					<span onClick={this.newLayout}>Randomize</span>
+					<span onClick={this.newLayout}> {word} </span>
 				</div>
 				<Content images={this.state.images} getSelectedImages={this.getSelectedImages} />
 			</StyledDiv>

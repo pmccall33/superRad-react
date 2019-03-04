@@ -264,25 +264,3 @@ class Authorization extends Component {
 
 export default Authorization;
 
-
-    // return(
-    //   <div>
-    //     <StyledAuth>
-    //       <form onClick={this.setRegView} style={regStyle} >
-    //         <h1>Sign Up</h1>
-    //         { this.state.message && this.state.authView === "reg" ? <p> <small>{this.state.message}</small> <br/> </p> : <p> &nbsp; <br /> </p> }
-    //         <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "reg" ? this.state.username : ""} placeholder="username"></input> <br />
-    //         <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "reg" ? this.state.password : "" } placeholder="password"></input> <br />
-    //         <input  onChange={this.handleChange} type="password" name="confirmation" value={ this.state.authView === "reg" ? this.state.confirmation : "" } placeholder="confirm password"></input> <br /> 
-    //         <button disabled={regDisabled} onClick={this.submitReg}>Create Account</button> 
-    //       </form>
-    //       <form onClick={this.setLoginView} style={loginStyle}>
-    //         <h1>Log In</h1>
-    //         { this.state.message && this.state.authView === "login" ? <p> <small>{ this.state.authView === "login" ? this.state.message : "" } </small> <br /> </p> : <p> &nbsp; <br /> </p> }
-    //         <input  onChange={this.handleChange} type="text" name="username" value={ this.state.authView === "login" ? this.state.username : "" } placeholder="username"></input> <br/>
-    //         <input  onChange={this.handleChange} type="password" name="password" value={ this.state.authView === "login" ? this.state.password : "" } placeholder="password"></input> <br />
-    //         <button disabled={loginDisabled} onClick={this.submitLogin}>Log In</button>
-    //       </form>
-    //     </StyledAuth>
-    //   </div>
-    // )
